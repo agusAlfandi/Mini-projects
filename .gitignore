@@ -23,9 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-apps/web/.env
+.env
 .env.local
-apps/api/.env.development
+.env.development.local
 .env.test.local
 .env.production.local
 
