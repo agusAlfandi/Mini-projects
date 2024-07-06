@@ -10,25 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Sample {
-//   id        Int      @id @default(autoincrement())
-//   name      String
-//   code      String   @unique
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   @@map("samples") // if you want to use snake_case format
-// }
-
 model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique
   password     String
-  role         String
-  referralCode String        @unique
+  role         String        @default("USER")
+  referralCode String
   points       Int           @default(0)
   createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  updatedAt    DateTime      @default(now())
   events       Event[]
   transactions Transaction[]
 }
@@ -45,7 +35,7 @@ model Event {
   organizer      User          @relation(fields: [organizerId], references: [id])
   organizerId    Int
   createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  updatedAt      DateTime      @default(now())
   transactions   Transaction[]
   reviews        Review[]
 }
