@@ -14,7 +14,7 @@ import router from './routers';
 const app = express();
 app.use(cors());
 
-app.use(json());
+app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(router);
 
