@@ -27,11 +27,12 @@ model Event {
   id             Int           @id @default(autoincrement())
   name           String
   price          Int
-  date           DateTime
+  date           String
   location       String
-  description    String
+  description    String        @db.VarChar(500)
   availableSeats Int
   isFree         Boolean
+  image          String        @default("")
   organizer      User          @relation(fields: [organizerId], references: [id])
   organizerId    Int
   createdAt      DateTime      @default(now())
