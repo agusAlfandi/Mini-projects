@@ -4,10 +4,12 @@ import { Request, Response } from 'express';
 const prisma = new PrismaClient();
 
 export const createEvent = async (req: Request, res: Response) => {
+  if (req.body) {
+    console.log(req.body);
+  } else {
+    console.log('req.body is undefined');
+  }
   try {
-    // console.log('image: ', req.file);
-    // console.log('body: ', req.body);
-
     if (!req.body) {
       return res.status(400).send({ message: 'Content can not be empty!' });
     }
@@ -15,7 +17,7 @@ export const createEvent = async (req: Request, res: Response) => {
     if (!req.file?.path && !req.file?.filename) {
       return res.status(400).send({ message: 'File not found!' });
     }
-    const imagePath = req.file.path;
+    const imagePath = req.file.filename;
 
     const {
       name,
@@ -29,18 +31,7 @@ export const createEvent = async (req: Request, res: Response) => {
       organizerId,
     } = req.body;
 
-    // console.log(
-    //   name,
-    //   price,
-    //   date,
-    //   location,
-    //   description,
-    //   availableSeats,
-    //   isFree,
-    //   image,
-    //   organizerId,
-    // );
-
+    const dateEvent = new Date(date);
     const priceNumber = parseFloat(price);
     const availableSeatsNumber = parseInt(availableSeats);
     const organizerIdNumber = parseInt(organizerId);
@@ -50,7 +41,7 @@ export const createEvent = async (req: Request, res: Response) => {
       data: {
         name,
         price: isFree ? 0 : priceNumber,
-        date,
+        date: dateEvent,
         location,
         description,
         availableSeats: availableSeatsNumber,
@@ -76,12 +67,11 @@ export const getEvents = async (req: Request, res: Response) => {
 };
 
 export const updateEvent = async (req: Request, res: Response) => {
-  // console.log('price: ', req.body);
   try {
-    if (!req.file?.path && !req.file?.filename) {
+    if (!req.file?.filename) {
       return res.status(400).send({ message: 'File not found!' });
     }
-    const imagePath = req.file.path;
+    const imagePath = req.file.filename;
 
     const { id } = req.params;
     const {
@@ -95,20 +85,19 @@ export const updateEvent = async (req: Request, res: Response) => {
       image = imagePath,
       organizerId,
     } = req.body;
-    console.log('🚀 ~ updateEvent ~ price:', typeof price);
 
+    const dateEvent = new Date(date);
     const priceNumber = parseFloat(price);
     const availableSeatsNumber = parseInt(availableSeats);
     const organizerIdNumber = parseInt(organizerId);
     const isFreeBoolean = isFree === 'true';
 
-    console.log('🚀 ~ updateEvent ~ priceNumber:', typeof priceNumber);
     const event = await prisma.event.update({
       where: { id: Number(id) },
       data: {
         name,
         price: priceNumber,
-        date,
+        date: dateEvent,
         location,
         description,
         availableSeats: availableSeatsNumber,
@@ -133,6 +122,46 @@ export const getEventById = async (req: Request, res: Response) => {
     });
 
     res.status(200).send({ message: 'Success get event', event });
+  } catch (error) {
+    res.status(500).send({ message: 'Error get event', error });
+  }
+};
+
+export const getEventByLocation = async (req: Request, res: Response) => {
+  try {
+    const { location } = req.params;
+
+    const event = await prisma.event.findMany({
+      skip: 3,
+      take: 5,
+      where: {
+        location: {
+          startsWith: location,
+        },
+      },
+    });
+
+    res.status(200).send({ message: 'Success get event locations', event });
+  } catch (error) {
+    res.status(500).send({ message: 'Error get event', error });
+  }
+};
+
+export const getEventByCategory = async (req: Request, res: Response) => {
+  try {
+    const { category } = req.params;
+
+    const event = await prisma.event.findMany({
+      skip: 3,
+      take: 5,
+      where: {
+        name: {
+          startsWith: category,
+        },
+      },
+    });
+
+    res.status(200).send({ message: 'Success get event category', event });
   } catch (error) {
     res.status(500).send({ message: 'Error get event', error });
   }

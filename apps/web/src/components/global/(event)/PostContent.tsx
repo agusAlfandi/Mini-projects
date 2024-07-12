@@ -1,47 +1,42 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { format } from 'date-fns';
 
 type ParamsProps = {
-  key: number;
   event_id: number;
   name: string;
   price: number;
-  location: string;
   date: Date;
-  description: string;
   isFree: boolean;
   image?: string;
 };
 
 const PostContent = ({
-  key,
   event_id,
   name,
   price,
-  location,
   date,
-  description,
   isFree,
   image,
 }: ParamsProps): React.ReactElement => {
+  const dateFormat = format(date, 'EEE, d MMM, HH:mm');
+
   return (
     <Link href={`/dashboard/event/${event_id}`}>
-      <div key={key} className="bg-white p-4 shadow-md rounded-md">
+      <div className="bg-white p-4 shadow-md rounded-md duration-300 hover:scale-105 h-full">
         {/* <Image
-        src={image as string}
-        alt={name}
-        width={300}
-        height={200}
-        priority={true}
-        className="rounded-md h-48 w-full object-cover"
-      /> */}
+          src={process.env.NEXT_PUBLIC_BASE_API_URL_IMAGE + image}
+          alt={image as string}
+          width={300}
+          height={200}
+          priority={true}
+          className="rounded-md h-48 w-full object-cover mb-5"
+        /> */}
         <h1 className="text-xl font-bold">{name}</h1>
-        <p>{date.toString()}</p>
-        <p>{location}</p>
-        <p>{description}</p>
+        <p>{dateFormat}</p>
+
         <p>{isFree ? 'Free' : `Rp ${price}`}</p>
-        <button className="btn btn-primary">Join</button>
       </div>
     </Link>
   );

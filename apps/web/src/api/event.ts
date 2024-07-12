@@ -2,20 +2,44 @@
 
 import axios from 'axios';
 import { redirect } from 'next/navigation';
-import { Redirect } from 'next'; // Import the Redirect type from the appropriate module
-const API_URL = 'http://localhost:8000/event';
+import { Redirect } from 'next';
 
 export const getAllEvent = async () => {
-  const response = await axios.get(API_URL + '/get-events');
+  const response = await axios.get(
+    process.env.NEXT_PUBLIC_BASE_API_URL + '/get-events',
+  );
+  return response.data;
+};
+
+export const getByLokasi = async (location: FormData) => {
+  const locationValue = location.get('search');
+
+  const response = await axios.get(
+    process.env.NEXT_PUBLIC_BASE_API_URL + `/get-by-lokasi/${locationValue}`,
+  );
+  return response.data;
+};
+
+export const getByCategory = async (category: FormData) => {
+  const categoryValue = category.get('search');
+  console.log('🚀 ~ getByCategory ~ categoryValue:', categoryValue);
+
+  const response = await axios.get(
+    process.env.NEXT_PUBLIC_BASE_API_URL + `/get-by-category/${categoryValue}`,
+  );
   return response.data;
 };
 
 export const createEvent = async (formData: FormData): Promise<Redirect> => {
+  // console.log('🚀 ~ createEvent ~ formData:', formData);
   try {
     const organizerId = 1;
 
     formData.append('organizerId', organizerId.toString());
-    const response = await axios.post(API_URL + '/create-event', formData);
+    const response = await axios.post(
+      process.env.NEXT_PUBLIC_BASE_API_URL + '/create-event',
+      formData,
+    );
   } catch (error) {
     console.error(error);
   }
@@ -23,7 +47,9 @@ export const createEvent = async (formData: FormData): Promise<Redirect> => {
 };
 
 export const getEventById = async (id: number) => {
-  const response = await axios.get(API_URL + `/get-event/${id}`);
+  const response = await axios.get(
+    process.env.NEXT_PUBLIC_BASE_API_URL + `/get-event/${id}`,
+  );
   return response.data;
 };
 
@@ -31,15 +57,12 @@ export const updateEvent = async (
   formData: FormData,
   id: number,
 ): Promise<Redirect> => {
-  console.log('🚀 ~ updateEvent ~ FormData:', FormData);
-  // console.log('🚀 ~ updateEvent ~ id:', id);
-  console.log('🚀 ~ updateEvent ~ formData:', formData);
   try {
     const organizerId = 1;
     formData.append('organizerId', organizerId.toString());
 
     const response = await axios.post(
-      API_URL + `/update-event/${id}`,
+      process.env.NEXT_PUBLIC_BASE_API_URL + `/update-event/${id}`,
       formData,
     );
     console.log('🚀 ~ updateEvent ~ response:', response.data);
@@ -49,5 +72,3 @@ export const updateEvent = async (
   }
   redirect('/');
 };
-
-// export const handle

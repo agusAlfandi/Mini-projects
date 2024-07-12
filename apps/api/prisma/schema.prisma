@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://demigod:Cih16010.-_@localhost:3306/mini_projects"
 }
 
 model User {
@@ -27,7 +27,7 @@ model Event {
   id             Int           @id @default(autoincrement())
   name           String
   price          Int
-  date           String
+  date           DateTime
   location       String
   description    String        @db.VarChar(500)
   availableSeats Int
