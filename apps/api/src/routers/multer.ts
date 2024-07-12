@@ -4,7 +4,7 @@ import fs from 'fs'; // Add this line to import the 'fs' module
 
 export const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../uploads'));
+    cb(null, path.join(__dirname, '../../public/images'));
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -17,7 +17,11 @@ export const replace = multer({
   storage,
   fileFilter: (req, file, cb) => {
     // Check if the file already exists
-    const filePath = path.join(__dirname, '../uploads', file.originalname);
+    const filePath = path.join(
+      __dirname,
+      '../../public/images',
+      file.originalname,
+    );
     fs.access(filePath, fs.constants.F_OK, (err) => {
       if (err) {
         // File does not exist, allow upload

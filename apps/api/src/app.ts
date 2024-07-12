@@ -1,22 +1,17 @@
-import express, {
-  json,
-  urlencoded,
-  Express,
-  Request,
-  Response,
-  NextFunction,
-  Router,
-} from 'express';
+import express, { urlencoded, Request, Response } from 'express';
 import cors from 'cors';
-import { PORT } from './config';
+import 'dotenv/config';
+// import { PORT } from './config';
 import router from './routers';
 
+const PORT = process.env.PORT || 8000;
 const app = express();
 app.use(cors());
 
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(router);
+app.use(express.static('public'));
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, World!');

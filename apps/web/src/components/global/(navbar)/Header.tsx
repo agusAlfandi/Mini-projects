@@ -1,20 +1,23 @@
 import Link from 'next/link';
+import SearchEvent from './SearchEvent';
+// import { getAllEvent } from '@/api/event';
 
 export const Header = () => {
+  // const handleSearch = async () => {
+  //   const getEvent = await getAllEvent();
+  //   console.log(getEvent);
+  // };
+
   return (
     <div className="navbar flex justify-between bg-base-content">
-      <div>
+      <div className="flex justify-between">
         <div className="navbar-start">
           <Link href="/" className="btn btn-ghost text-xl text-green-500">
             MANAGE.
           </Link>
         </div>
-        <div className="form-control ml-5">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-24 h-10 md:w-auto"
-          />
+        <div>
+          <SearchEvent />
         </div>
       </div>
 

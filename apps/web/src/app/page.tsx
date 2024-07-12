@@ -1,4 +1,4 @@
-import LandingPageEvent from '@/components/global/event/LandingPageEvent';
+import LandingPageEvent from '@/components/global/(event)/LandingPageEvent';
 import Wrapper from '@/components/global/Wrapper';
 import React from 'react';
 

@@ -41,7 +41,7 @@ const CreateEvent = (): ReactElement => {
 
         <label>Date</label>
         <input
-          type="date"
+          type="datetime-local"
           name="date"
           className="input input-bordered w-full max-w-3xl"
           required

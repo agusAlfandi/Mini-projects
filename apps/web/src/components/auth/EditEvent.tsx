@@ -55,10 +55,6 @@ const EditEvent = ({
       formData.append('image', eventImage);
     }
 
-    // console.log(
-    //   '🚀 ~ handleEditEvent ~ formData:',
-    //   formData.forEach((e) => console.log(e)),
-    // );
     await updateEvent(formData, id);
   };
 
