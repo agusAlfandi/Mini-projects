@@ -12,22 +12,32 @@ export const getAllEvent = async () => {
 };
 
 export const getByLokasi = async (location: FormData) => {
-  const locationValue = location.get('search');
+  try {
+    const locationValue = location.get('search');
 
-  const response = await axios.get(
-    process.env.NEXT_PUBLIC_BASE_API_URL + `/get-by-lokasi/${locationValue}`,
-  );
-  return response.data;
+    const response = await axios.get(
+      process.env.NEXT_PUBLIC_BASE_API_URL + `/get-by-lokasi/${locationValue}`,
+    );
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 export const getByCategory = async (category: FormData) => {
-  const categoryValue = category.get('search');
-  console.log('🚀 ~ getByCategory ~ categoryValue:', categoryValue);
+  try {
+    const categoryValue = category.get('search');
+    console.log('🚀 ~ getByCategory ~ categoryValue:', categoryValue);
 
-  const response = await axios.get(
-    process.env.NEXT_PUBLIC_BASE_API_URL + `/get-by-category/${categoryValue}`,
-  );
-  return response.data;
+    const response = await axios.get(
+      process.env.NEXT_PUBLIC_BASE_API_URL +
+        `/get-by-category/${categoryValue}`,
+    );
+    console.log('🚀 ~ getByCategory ~ response:', response);
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 export const createEvent = async (formData: FormData): Promise<Redirect> => {

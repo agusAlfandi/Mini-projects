@@ -14,7 +14,12 @@ const SearchEvent = () => {
     formData.append('search', data);
 
     const res = await getByLokasi(formData);
-    setRes(res.event);
+    if (res.event) {
+      alert(res.message);
+      setRes(res.event);
+    } else {
+      alert(res.message);
+    }
   };
 
   const handelSearchCategory = async (e: React.FormEvent) => {
@@ -23,7 +28,12 @@ const SearchEvent = () => {
     formData.append('search', data);
 
     const res = await getByCategory(formData);
-    setRes(res.event);
+    if (res.event) {
+      alert(res.message);
+      setRes(res.event);
+    } else {
+      alert(res.message);
+    }
   };
 
   return (

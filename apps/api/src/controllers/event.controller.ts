@@ -132,8 +132,6 @@ export const getEventByLocation = async (req: Request, res: Response) => {
     const { location } = req.params;
 
     const event = await prisma.event.findMany({
-      skip: 3,
-      take: 5,
       where: {
         location: {
           startsWith: location,
@@ -141,9 +139,13 @@ export const getEventByLocation = async (req: Request, res: Response) => {
       },
     });
 
+    if (event.length === 0) {
+      return res.status(404).send({ message: 'Data location is not found' });
+    }
+
     res.status(200).send({ message: 'Success get event locations', event });
   } catch (error) {
-    res.status(500).send({ message: 'Error get event', error });
+    res.status(500).send({ message: 'Sory data location is not found' });
   }
 };
 
@@ -152,8 +154,6 @@ export const getEventByCategory = async (req: Request, res: Response) => {
     const { category } = req.params;
 
     const event = await prisma.event.findMany({
-      skip: 3,
-      take: 5,
       where: {
         name: {
           startsWith: category,
@@ -161,8 +161,12 @@ export const getEventByCategory = async (req: Request, res: Response) => {
       },
     });
 
+    if (event.length === 0) {
+      return res.status(404).send({ message: 'Data category is not found' });
+    }
+
     res.status(200).send({ message: 'Success get event category', event });
   } catch (error) {
-    res.status(500).send({ message: 'Error get event', error });
+    res.status(500).send({ message: 'Sory data category is not found' });
   }
 };
