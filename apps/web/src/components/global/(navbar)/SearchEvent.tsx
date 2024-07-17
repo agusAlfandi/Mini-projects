@@ -75,6 +75,7 @@ const SearchEvent = () => {
               placeholder="Search"
               className="input input-bordered w-24 h-10 md:w-auto"
               onChange={(e) => setData(e.target.value)}
+              required
             />
           </div>
           <div className="modal-action">

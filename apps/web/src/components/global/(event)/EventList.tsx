@@ -10,10 +10,7 @@ const EventList = (): React.ReactElement => {
       id: number;
       name: string;
       price: number;
-      // location: string;
       date: Date;
-      // description: string;
-      // availableSeats: number;
       isFree: boolean;
       image: string;
     }[]
@@ -36,12 +33,9 @@ const EventList = (): React.ReactElement => {
               key={event.id}
               event_id={event.id}
               name={event.name}
-              // location={event.location}
               price={event.price}
               date={event.date}
-              // description={event.description}
               isFree={event.isFree}
-              // image={event.image}
             />
           );
         })}

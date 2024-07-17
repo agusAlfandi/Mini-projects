@@ -1,24 +1,15 @@
-'use client';
-
-import { getAllEvent } from '@/api/event';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { format } from 'date-fns';
-
-type PramsProps = {
-  id: number;
-  name: string;
-  price: number;
-  location: string;
-  date: Date;
-  description: string;
-  availableSeats: number;
-  isFree: boolean;
-  image: string;
-};
+import Link from 'next/link';
+import { IEvent } from '@/utils/interface';
+import FormatRupiah from '../FormatRupiah';
+import RiviewsList from '../(review)/RiviewsList';
+import CreateCommentForm from '@/components/auth/CreateCommentForm';
 
 const DetailEvent = ({
   id,
+  event_id,
   name,
   price,
   location,
@@ -27,45 +18,23 @@ const DetailEvent = ({
   availableSeats,
   isFree,
   image,
-}: PramsProps): React.ReactElement => {
-  const [events, setEvents] = useState<
-    {
-      id: number;
-      name: string;
-      price: number;
-      location: string;
-      date: Date;
-      description: string;
-      availableSeats: number;
-      isFree: boolean;
-      image: string;
-    }[]
-  >([]);
-
-  useEffect(() => {
-    handlegetAllEvent();
-  }, []);
-
-  const handlegetAllEvent = async () => {
-    const response = await getAllEvent();
-    setEvents(response.events);
-  };
-
+}: IEvent): React.ReactElement => {
+  const isLogin = true;
   const dateFormat = format(date, 'EEE, d MMM, HH:mm');
 
   return (
     <div className="flex flex-col p-4 h-auto justify-center items-center">
       <div>
-        <h1 className="flex justify-center text-2xl mb-10 mt-14">
+        <h1 className="flex justify-center text-2xl font-bold mb-10 mt-14">
           Detail Event
         </h1>
       </div>
 
-      <div className="flex h-full">
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-7 card card-body card-bordered shadow-lg bg-green-200 h-96 m-auto max-w-6xl">
+      <div className="flex h-full mb-10">
+        <div className="flex md:flex-col lg:flex-row justify-center items-center gap-7 card card-body card-bordered shadow-lg bg-green-200 md:h-auto lg:h-2/3 m-auto max-w-6xl">
           <Image
-            src={process.env.NEXT_PUBLIC_BASE_API_URL_IMAGE + image}
-            alt={image}
+            src={`${process.env.NEXT_PUBLIC_BASE_API_URL_IMAGE}${image}`}
+            alt="Event Image"
             width={300}
             height={980}
             className="rounded-xl h-80 w-96 object-cover"
@@ -82,25 +51,34 @@ const DetailEvent = ({
             <hr className="border-slate-500 mb-5" />
             <div className="flex flex-wrap items-center md:w-3/4 lg:w-full gap-4">
               <p>
-                {' '}
                 Seats: <br />
                 {availableSeats}
               </p>
               <p>
-                {' '}
                 Price: <br />
-                {isFree ? 'Free' : `Rp ${price}`}
+                {isFree ? 'Free' : <FormatRupiah price={price} />}
               </p>
               <p>
-                {' '}
                 Location: <br />
                 {location}
               </p>
-              <button className="btn btn-primary">Daftar</button>
+              <Link href={`/dashboard/my-event/register-event/${id}`}>
+                <button className="btn btn-primary">Daftar</button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
+      <RiviewsList event_id={event_id} />
+      <hr className="border-slate-400 px-96 my-5" />
+      {isLogin ? (
+        <CreateCommentForm event_id={event_id} />
+      ) : (
+        <Link href="/sign-in">
+          <button className="btn btn-ghost">Login to Comment</button>
+        </Link>
+      )}
+      {/* <CreateCommentForm /> */}
     </div>
   );
 };
