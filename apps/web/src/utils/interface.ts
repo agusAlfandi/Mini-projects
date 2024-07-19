@@ -11,7 +11,7 @@ export interface Event {
 }
 
 export interface IEvent extends Event {
-  event_id: number;
+  event_id: number | undefined;
 }
 
 export interface Review {

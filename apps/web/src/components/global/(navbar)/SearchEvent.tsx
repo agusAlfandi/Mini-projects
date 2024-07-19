@@ -4,7 +4,7 @@ import { getByCategory, getByLokasi } from '@/api/event';
 import { useState } from 'react';
 import SearchResult from './SearchResult';
 
-const SearchEvent = () => {
+const SearchEvent = (): React.ReactElement => {
   const [data, setData] = useState('');
   const [res, setRes] = useState([]);
 

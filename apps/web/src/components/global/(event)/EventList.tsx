@@ -32,6 +32,7 @@ const EventList = (): React.ReactElement => {
             <PostContent
               key={event.id}
               event_id={event.id}
+              image={event.image}
               name={event.name}
               price={event.price}
               date={event.date}

@@ -20,6 +20,8 @@ const DetailEvent = ({
   image,
 }: IEvent): React.ReactElement => {
   const isLogin = true;
+
+  const dateEvent = new Date(date).getTime();
   const dateFormat = format(date, 'EEE, d MMM, HH:mm');
 
   return (
@@ -62,23 +64,28 @@ const DetailEvent = ({
                 Location: <br />
                 {location}
               </p>
-              <Link href={`/dashboard/my-event/register-event/${id}`}>
-                <button className="btn btn-primary">Daftar</button>
-              </Link>
+              {dateEvent < new Date().getTime() ? null : (
+                <Link href={`/dashboard/my-event/register-event/${id}`}>
+                  <button className="btn btn-primary">Daftar</button>
+                </Link>
+              )}
             </div>
           </div>
         </div>
       </div>
-      <RiviewsList event_id={event_id} />
-      <hr className="border-slate-400 px-96 my-5" />
-      {isLogin ? (
-        <CreateCommentForm event_id={event_id} />
-      ) : (
-        <Link href="/sign-in">
-          <button className="btn btn-ghost">Login to Comment</button>
-        </Link>
+      {dateEvent > new Date().getTime() ? null : (
+        <>
+          <RiviewsList event_id={event_id} />
+          <hr className="border-slate-400 px-96 my-5" />
+          {isLogin ? (
+            <CreateCommentForm event_id={event_id} />
+          ) : (
+            <Link href="/sign-in">
+              <button className="btn btn-ghost">Login to Comment</button>
+            </Link>
+          )}
+        </>
       )}
-      {/* <CreateCommentForm /> */}
     </div>
   );
 };

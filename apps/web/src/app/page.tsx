@@ -2,8 +2,6 @@ import LandingPageEvent from '@/components/global/(event)/LandingPageEvent';
 import Wrapper from '@/components/global/Wrapper';
 import React from 'react';
 
-// export const revalidate = 0;
-
 const page = (): React.ReactElement => {
   return (
     <Wrapper

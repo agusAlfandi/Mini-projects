@@ -1,8 +1,9 @@
 import React from 'react';
 import PostContent from '../(event)/PostContent';
+import { IEvent, Review } from '@/utils/interface';
 
 type ParamsProps = {
-  result: Array<any>;
+  result: Array<IEvent>;
 };
 
 const SearchResult = ({ result }: ParamsProps): React.ReactElement => {

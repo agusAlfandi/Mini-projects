@@ -2,11 +2,11 @@ import { getReviews } from '@/api/riviews';
 import { Review } from '@/utils/interface';
 
 type ParamsProps = {
-  event_id: number;
+  event_id: number | undefined;
 };
 
 const RiviewsList = async ({
-  event_id,
+  event_id = 0,
 }: ParamsProps): Promise<React.ReactElement> => {
   const res = await getReviews(event_id);
 

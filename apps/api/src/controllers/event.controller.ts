@@ -4,18 +4,13 @@ import { Request, Response } from 'express';
 const prisma = new PrismaClient();
 
 export const createEvent = async (req: Request, res: Response) => {
-  if (req.body) {
-    console.log(req.body);
-  } else {
-    console.log('req.body is undefined');
-  }
   try {
     if (!req.body) {
       return res.status(400).send({ message: 'Content can not be empty!' });
     }
 
     if (!req.file?.path && !req.file?.filename) {
-      return res.status(400).send({ message: 'File not found!' });
+      return res.status(400).send({ message: 'File image not found!' });
     }
     const imagePath = req.file.filename;
 
@@ -69,7 +64,7 @@ export const getEvents = async (req: Request, res: Response) => {
 export const updateEvent = async (req: Request, res: Response) => {
   try {
     if (!req.file?.filename) {
-      return res.status(400).send({ message: 'File not found!' });
+      return res.status(400).send({ message: 'File image not found!' });
     }
     const imagePath = req.file.filename;
 
@@ -145,7 +140,7 @@ export const getEventByLocation = async (req: Request, res: Response) => {
 
     res.status(200).send({ message: 'Success get event locations', event });
   } catch (error) {
-    res.status(500).send({ message: 'Sory data location is not found' });
+    res.status(500).send({ message: 'Server error' });
   }
 };
 
@@ -167,6 +162,6 @@ export const getEventByCategory = async (req: Request, res: Response) => {
 
     res.status(200).send({ message: 'Success get event category', event });
   } catch (error) {
-    res.status(500).send({ message: 'Sory data category is not found' });
+    res.status(500).send({ message: 'Server error' });
   }
 };

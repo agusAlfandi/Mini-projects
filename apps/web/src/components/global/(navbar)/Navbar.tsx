@@ -2,7 +2,7 @@ import Link from 'next/link';
 import SearchEvent from './SearchEvent';
 import NavbarButton from './NavbarButton';
 
-export const Navbar = () => {
+export const Navbar = (): React.ReactElement => {
   return (
     <div>
       <div className="navbar flex justify-between bg-base-content">

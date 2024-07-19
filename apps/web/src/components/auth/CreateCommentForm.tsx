@@ -4,10 +4,12 @@ import { createReview } from '@/api/riviews';
 import React from 'react';
 
 type ParamsProps = {
-  event_id: number;
+  event_id: number | undefined;
 };
 
-const CreateCommentForm = ({ event_id }: ParamsProps): React.ReactElement => {
+const CreateCommentForm = ({
+  event_id = 0,
+}: ParamsProps): React.ReactElement => {
   const FromRef = React.useRef<HTMLFormElement>(null);
   const [name, setName] = React.useState('');
   const [rating, setRating] = React.useState('');

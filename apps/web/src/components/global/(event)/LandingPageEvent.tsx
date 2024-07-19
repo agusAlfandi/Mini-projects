@@ -4,6 +4,7 @@ import { getAllEvent } from '@/api/event';
 import { useEffect, useState } from 'react';
 import PostContent from './PostContent';
 import Image from 'next/image';
+import { IEvent } from '@/utils/interface';
 
 const LandingPageEvent = (): React.ReactElement => {
   const [events, setEvents] = useState<
@@ -23,7 +24,11 @@ const LandingPageEvent = (): React.ReactElement => {
 
   const handleEventComingSoon = async () => {
     const response = await getAllEvent();
-    const randomEvents = response.events
+    const currentDate = new Date().getTime();
+    const filteredEvents = response.events.filter(
+      (event: IEvent) => new Date(event.date).getTime() > currentDate,
+    );
+    const randomEvents = filteredEvents
       .sort(() => Math.random() - 0.5)
       .slice(0, 3);
     setEvents(randomEvents);

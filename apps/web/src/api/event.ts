@@ -39,7 +39,6 @@ export const getByCategory = async (category: FormData) => {
       process.env.NEXT_PUBLIC_BASE_API_URL +
         `/event/get-by-category/${categoryValue}`,
     );
-    console.log('🚀 ~ getByCategory ~ response:', response);
     return response.data;
   } catch (error: any) {
     return error.response.data;
@@ -79,14 +78,13 @@ export const updateEvent = async (
   id: number,
 ): Promise<Redirect> => {
   try {
-    const organizerId = 14;
+    const organizerId = 15;
     formData.append('organizerId', organizerId.toString());
 
     const response = await axios.post(
       process.env.NEXT_PUBLIC_BASE_API_URL + `/event/update-event/${id}`,
       formData,
     );
-    console.log('🚀 ~ updateEvent ~ response:', response.data);
     return response.data;
   } catch (error) {
     console.error(error);

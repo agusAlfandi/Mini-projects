@@ -1,8 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Event } from '../../../utils/interface';
 
-const NavbarButton = () => {
+const NavbarButton = (): React.ReactElement => {
   const isLogin = true;
 
   return (
@@ -17,8 +16,11 @@ const NavbarButton = () => {
               </Link>
             </li>
             <li>
-              <Link href="/dashboard/promotion" className="btn btn-ghost">
-                My Event
+              <Link
+                href="/dashboard/my-event/event-list"
+                className="btn btn-ghost"
+              >
+                Event List
               </Link>
             </li>
             <li>

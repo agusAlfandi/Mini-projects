@@ -1,5 +1,4 @@
 import { Router } from 'express';
-
 import auth from './auth.router';
 import event from './event.router';
 import review from './review.router';
