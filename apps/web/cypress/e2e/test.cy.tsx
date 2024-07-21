@@ -1,34 +1,24 @@
-import Page from '../../src/app/page';
-
-describe('<Page />', () => {
-  it('should render and display expected content', () => {
-    // Mount the React component for the Home page
-    // cy.mount(<Page />);
+describe('LandingPageEvent Component', () => {
+  beforeEach(() => {
+    // Assuming '/events' is the URL where LandingPageEvent is rendered
     cy.visit('http://localhost:3000');
-
-    // The new page should contain an h1 with "Home"
-    cy.get('title').should('exist');
-
-    // Validate that a link with the expected URL is present
-    // Following the link is better suited to an E2E test
-    cy.get('LandingPageEvent').should('exist');
-    // cy.get('a[href="/about"]').should('be.visible');
   });
+
+  it('loads two banner images', () => {
+    cy.get('[alt="Banner"]').should('have.length', 2);
+    // cy.get('[src="banner.webp"]').should('be.visible');
+    // cy.get('[src="banner2.webp"]').should('be.visible');
+  });
+
+  it('displays the event introduction text', () => {
+    cy.contains(
+      'Ini adalah beberapa event yang mungkin membuat anda tertarik untuk ikuti:',
+    ).should('be.visible');
+  });
+
+  it('displays up to three events', () => {
+    cy.get('[data-testid="event-card"]').should('have.length.lessThan', 4);
+  });
+
+  // Add more tests as needed for interactivity, dynamic content, etc.
 });
-
-// describe('<Test />', () => {
-//   it('should navigate to the about page', () => {
-//     // Start from the index page
-//     cy.visit('http://localhost:3000');
-//     // cy.mount(<Test />);
-
-//     // Find a link with an href attribute containing "about" and click it
-//     cy.get('a[href*="about"]').click();
-
-//     // The new url should include "/about"
-//     cy.url().should('include', '/about');
-
-//     // The new page should contain an h1 with "About"
-//     cy.get('h1').contains('About');
-//   });
-// });

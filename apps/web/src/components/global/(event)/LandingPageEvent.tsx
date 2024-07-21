@@ -59,7 +59,7 @@ const LandingPageEvent = (): React.ReactElement => {
         ikuti:
       </h1>
       <div className="bg-green-200 p-10 shadow-md rounded-md">
-        <div className="grid md:grid-cols-3 gap-4">
+        <div data-testid="event-card" className="grid md:grid-cols-3 gap-4">
           {events?.map((event) => {
             return (
               <PostContent
