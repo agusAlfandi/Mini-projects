@@ -3,8 +3,12 @@ import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
-export const reviewEvent = async (req: Request, res: Response) => {
+export const createReviewEvent = async (req: Request, res: Response) => {
   try {
+    if (!req.body) {
+      return res.status(400).send({ message: 'Content can not be empty!' });
+    }
+
     const { id } = req.params;
     const { name, rating, comment } = req.body;
 

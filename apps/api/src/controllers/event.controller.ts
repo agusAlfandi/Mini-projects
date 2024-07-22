@@ -8,12 +8,10 @@ export const createEvent = async (req: Request, res: Response) => {
     if (!req.body) {
       return res.status(400).send({ message: 'Content can not be empty!' });
     }
-
-    if (!req.file?.path && !req.file?.filename) {
+    if (!req.file || (!req.file.path && !req.file.filename)) {
       return res.status(400).send({ message: 'File image not found!' });
     }
     const imagePath = req.file.filename;
-
     const {
       name,
       price,
@@ -22,16 +20,13 @@ export const createEvent = async (req: Request, res: Response) => {
       description,
       availableSeats,
       isFree,
-      image = imagePath,
       organizerId,
     } = req.body;
-
     const dateEvent = new Date(date);
     const priceNumber = parseFloat(price);
     const availableSeatsNumber = parseInt(availableSeats);
     const organizerIdNumber = parseInt(organizerId);
     const isFreeBoolean = isFree === 'true';
-
     const event = await prisma.event.create({
       data: {
         name,
@@ -41,11 +36,10 @@ export const createEvent = async (req: Request, res: Response) => {
         description,
         availableSeats: availableSeatsNumber,
         isFree: isFreeBoolean,
-        image,
+        image: imagePath,
         organizerId: organizerIdNumber,
       },
     });
-
     res.status(201).json({ message: 'Success create event' });
   } catch (error) {
     res.status(500).send({ message: 'Error create event', error });

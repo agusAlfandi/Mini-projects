@@ -17,9 +17,6 @@ const CreateCommentForm = ({
 
   const handleCreateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (FromRef.current) {
-      FromRef.current.reset();
-    }
 
     const formData = new FormData();
     formData.append('name', name);
@@ -30,6 +27,10 @@ const CreateCommentForm = ({
 
     if (res) {
       alert('Review Created');
+    }
+
+    if (FromRef.current) {
+      FromRef.current.reset();
     }
   };
 

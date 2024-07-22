@@ -11,7 +11,10 @@ const NavbarButton = (): React.ReactElement => {
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal px-1 text-lg text-white gap-4">
             <li>
-              <Link href="/dashboard/my-event" className="btn btn-ghost">
+              <Link
+                href="/dashboard/my-event/create-event"
+                className="btn btn-ghost"
+              >
                 Create Event
               </Link>
             </li>

@@ -56,7 +56,7 @@ model Review {
   id        Int      @id @default(autoincrement())
   event     Event    @relation(fields: [eventId], references: [id])
   eventId   Int
-  name      String   @default("")
+  name      String
   rating    Int
   comment   String?
   createdAt DateTime @default(now())

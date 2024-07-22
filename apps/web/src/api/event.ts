@@ -33,7 +33,6 @@ export const getByLokasi = async (location: FormData) => {
 export const getByCategory = async (category: FormData) => {
   try {
     const categoryValue = category.get('search');
-    console.log('🚀 ~ getByCategory ~ categoryValue:', categoryValue);
 
     const response = await axios.get(
       process.env.NEXT_PUBLIC_BASE_API_URL +
@@ -45,7 +44,7 @@ export const getByCategory = async (category: FormData) => {
   }
 };
 
-export const createEvent = async (formData: FormData): Promise<Redirect> => {
+export const createEvent = async (formData: FormData) => {
   try {
     const organizerId = 1;
 
@@ -58,7 +57,7 @@ export const createEvent = async (formData: FormData): Promise<Redirect> => {
   } catch (error) {
     console.error(error);
   }
-  redirect('/dashboard/event');
+  // redirect('/dashboard/event');
 };
 
 export const getEventById = async (id: number) => {
