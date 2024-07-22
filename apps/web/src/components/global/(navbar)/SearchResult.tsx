@@ -1,12 +1,12 @@
 import React from 'react';
 import PostContent from '../(event)/PostContent';
+import { IEvent, Review } from '@/utils/interface';
 
 type ParamsProps = {
-  result: Array<any>; // Replace 'Array[]' with 'Array<any>' or specify the specific type of elements.
+  result: Array<IEvent>;
 };
 
 const SearchResult = ({ result }: ParamsProps): React.ReactElement => {
-  //   console.log('🚀 ~ SearchResult ~ result:', result);
   return (
     <div className="p-5">
       <div className="grid md:grid-cols-3 gap-4">

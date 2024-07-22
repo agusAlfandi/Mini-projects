@@ -1,6 +1,6 @@
 import multer from 'multer';
 import path from 'path';
-import fs from 'fs'; // Add this line to import the 'fs' module
+import fs from 'fs';
 
 export const storage = multer.diskStorage({
   destination: (req, file, cb) => {

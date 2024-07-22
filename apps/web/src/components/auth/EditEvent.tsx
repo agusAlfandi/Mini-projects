@@ -1,19 +1,9 @@
 'use client';
 
 import { updateEvent } from '@/api/event';
+import { Event } from '@/utils/interface';
 import { format } from 'date-fns';
 import { useState } from 'react';
-
-type PramsProps = {
-  id: number;
-  name: string;
-  price: number;
-  date: string;
-  location: string;
-  description: string;
-  availableSeats: number;
-  isFree: boolean;
-};
 
 const EditEvent = ({
   id,
@@ -24,38 +14,39 @@ const EditEvent = ({
   description,
   availableSeats,
   isFree,
-}: PramsProps): React.ReactElement => {
+}: Event): React.ReactElement => {
   const formatDate = () => {
     const newDate = new Date(date);
     return format(newDate, 'yyyy-MM-dd');
   };
 
   const [eventName, setEventName] = useState(name);
-  const [eventPrice, setEventPrice] = useState(price);
+  const [eventPrice, setEventPrice] = useState(price ?? 0);
   const [eventDate, setEventDate] = useState(formatDate());
   const [eventLocation, setEventLocation] = useState(location);
   const [eventDescription, setEventDescription] = useState(description);
-  const [eventAvailableSeats, setEventAvailableSeats] =
-    useState(availableSeats);
-  const [eventIsFree, setEventIsFree] = useState(isFree);
+  const [eventAvailableSeats, setEventAvailableSeats] = useState(
+    availableSeats ?? 0,
+  );
+  const [eventIsFree, setEventIsFree] = useState(isFree ?? false);
   const [eventImage, setEventImage] = useState<File>();
 
   const handleEditEvent = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('name', eventName);
+    formData.append('name', eventName ?? '');
     formData.append('price', eventPrice.toString());
     formData.append('date', eventDate);
-    formData.append('location', eventLocation);
-    formData.append('description', eventDescription);
+    formData.append('location', eventLocation ?? '');
+    formData.append('description', eventDescription ?? '');
     formData.append('availableSeats', eventAvailableSeats.toString());
     formData.append('isFree', eventIsFree.toString());
     if (eventImage) {
       formData.append('image', eventImage);
     }
 
-    await updateEvent(formData, id);
+    await updateEvent(formData, id ?? 0);
   };
 
   return (
@@ -83,7 +74,7 @@ const EditEvent = ({
 
         <label>Date</label>
         <input
-          type="date"
+          type="datetime-local"
           name="date"
           className="input input-bordered w-full max-w-3xl"
           onChange={(e) => setEventDate(e.target.value)}
@@ -126,7 +117,7 @@ const EditEvent = ({
             name="isFree"
             // defaultChecked
             className="checkbox"
-            value={isFree.toString()}
+            value={isFree?.toString() ?? ''}
             onChange={(e) => {
               setEventIsFree(e.target.checked);
             }}

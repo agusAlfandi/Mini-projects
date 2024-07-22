@@ -4,21 +4,14 @@ import { Request, Response } from 'express';
 const prisma = new PrismaClient();
 
 export const createEvent = async (req: Request, res: Response) => {
-  if (req.body) {
-    console.log(req.body);
-  } else {
-    console.log('req.body is undefined');
-  }
   try {
     if (!req.body) {
       return res.status(400).send({ message: 'Content can not be empty!' });
     }
-
-    if (!req.file?.path && !req.file?.filename) {
-      return res.status(400).send({ message: 'File not found!' });
+    if (!req.file || (!req.file.path && !req.file.filename)) {
+      return res.status(400).send({ message: 'File image not found!' });
     }
     const imagePath = req.file.filename;
-
     const {
       name,
       price,
@@ -27,16 +20,13 @@ export const createEvent = async (req: Request, res: Response) => {
       description,
       availableSeats,
       isFree,
-      image = imagePath,
       organizerId,
     } = req.body;
-
     const dateEvent = new Date(date);
     const priceNumber = parseFloat(price);
     const availableSeatsNumber = parseInt(availableSeats);
     const organizerIdNumber = parseInt(organizerId);
     const isFreeBoolean = isFree === 'true';
-
     const event = await prisma.event.create({
       data: {
         name,
@@ -46,11 +36,10 @@ export const createEvent = async (req: Request, res: Response) => {
         description,
         availableSeats: availableSeatsNumber,
         isFree: isFreeBoolean,
-        image,
+        image: imagePath,
         organizerId: organizerIdNumber,
       },
     });
-
     res.status(201).json({ message: 'Success create event' });
   } catch (error) {
     res.status(500).send({ message: 'Error create event', error });
@@ -69,7 +58,7 @@ export const getEvents = async (req: Request, res: Response) => {
 export const updateEvent = async (req: Request, res: Response) => {
   try {
     if (!req.file?.filename) {
-      return res.status(400).send({ message: 'File not found!' });
+      return res.status(400).send({ message: 'File image not found!' });
     }
     const imagePath = req.file.filename;
 
@@ -132,8 +121,6 @@ export const getEventByLocation = async (req: Request, res: Response) => {
     const { location } = req.params;
 
     const event = await prisma.event.findMany({
-      skip: 3,
-      take: 5,
       where: {
         location: {
           startsWith: location,
@@ -141,9 +128,13 @@ export const getEventByLocation = async (req: Request, res: Response) => {
       },
     });
 
+    if (event.length === 0) {
+      return res.status(404).send({ message: 'Data location is not found' });
+    }
+
     res.status(200).send({ message: 'Success get event locations', event });
   } catch (error) {
-    res.status(500).send({ message: 'Error get event', error });
+    res.status(500).send({ message: 'Server error' });
   }
 };
 
@@ -152,8 +143,6 @@ export const getEventByCategory = async (req: Request, res: Response) => {
     const { category } = req.params;
 
     const event = await prisma.event.findMany({
-      skip: 3,
-      take: 5,
       where: {
         name: {
           startsWith: category,
@@ -161,8 +150,12 @@ export const getEventByCategory = async (req: Request, res: Response) => {
       },
     });
 
+    if (event.length === 0) {
+      return res.status(404).send({ message: 'Data category is not found' });
+    }
+
     res.status(200).send({ message: 'Success get event category', event });
   } catch (error) {
-    res.status(500).send({ message: 'Error get event', error });
+    res.status(500).send({ message: 'Server error' });
   }
 };

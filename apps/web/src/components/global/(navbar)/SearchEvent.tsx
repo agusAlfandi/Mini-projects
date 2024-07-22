@@ -4,7 +4,7 @@ import { getByCategory, getByLokasi } from '@/api/event';
 import { useState } from 'react';
 import SearchResult from './SearchResult';
 
-const SearchEvent = () => {
+const SearchEvent = (): React.ReactElement => {
   const [data, setData] = useState('');
   const [res, setRes] = useState([]);
 
@@ -14,7 +14,12 @@ const SearchEvent = () => {
     formData.append('search', data);
 
     const res = await getByLokasi(formData);
-    setRes(res.event);
+    if (res.event) {
+      alert(res.message);
+      setRes(res.event);
+    } else {
+      alert(res.message);
+    }
   };
 
   const handelSearchCategory = async (e: React.FormEvent) => {
@@ -23,7 +28,12 @@ const SearchEvent = () => {
     formData.append('search', data);
 
     const res = await getByCategory(formData);
-    setRes(res.event);
+    if (res.event) {
+      alert(res.message);
+      setRes(res.event);
+    } else {
+      alert(res.message);
+    }
   };
 
   return (
@@ -65,6 +75,7 @@ const SearchEvent = () => {
               placeholder="Search"
               className="input input-bordered w-24 h-10 md:w-auto"
               onChange={(e) => setData(e.target.value)}
+              required
             />
           </div>
           <div className="modal-action">

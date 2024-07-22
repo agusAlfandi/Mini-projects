@@ -5,52 +5,71 @@ import { redirect } from 'next/navigation';
 import { Redirect } from 'next';
 
 export const getAllEvent = async () => {
-  const response = await axios.get(
-    process.env.NEXT_PUBLIC_BASE_API_URL + '/get-events',
-  );
-  return response.data;
+  try {
+    const response = await axios.get(
+      process.env.NEXT_PUBLIC_BASE_API_URL + '/event/get-events',
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getByLokasi = async (location: FormData) => {
-  const locationValue = location.get('search');
+  try {
+    const locationValue = location.get('search');
 
-  const response = await axios.get(
-    process.env.NEXT_PUBLIC_BASE_API_URL + `/get-by-lokasi/${locationValue}`,
-  );
-  return response.data;
+    const response = await axios.get(
+      process.env.NEXT_PUBLIC_BASE_API_URL +
+        `/event/get-by-lokasi/${locationValue}`,
+    );
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 export const getByCategory = async (category: FormData) => {
-  const categoryValue = category.get('search');
-  console.log('🚀 ~ getByCategory ~ categoryValue:', categoryValue);
+  try {
+    const categoryValue = category.get('search');
 
-  const response = await axios.get(
-    process.env.NEXT_PUBLIC_BASE_API_URL + `/get-by-category/${categoryValue}`,
-  );
-  return response.data;
+    const response = await axios.get(
+      process.env.NEXT_PUBLIC_BASE_API_URL +
+        `/event/get-by-category/${categoryValue}`,
+    );
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
-export const createEvent = async (formData: FormData): Promise<Redirect> => {
-  // console.log('🚀 ~ createEvent ~ formData:', formData);
+export const createEvent = async (formData: FormData) => {
   try {
     const organizerId = 1;
 
     formData.append('organizerId', organizerId.toString());
     const response = await axios.post(
-      process.env.NEXT_PUBLIC_BASE_API_URL + '/create-event',
+      process.env.NEXT_PUBLIC_BASE_API_URL + '/event/create-event',
       formData,
     );
+    return response.data;
   } catch (error) {
     console.error(error);
   }
-  redirect('/dashboard/event');
+  // redirect('/dashboard/event');
 };
 
 export const getEventById = async (id: number) => {
-  const response = await axios.get(
-    process.env.NEXT_PUBLIC_BASE_API_URL + `/get-event/${id}`,
-  );
-  return response.data;
+  try {
+    const response = await axios.get(
+      process.env.NEXT_PUBLIC_BASE_API_URL + `/event/get-event/${id}`,
+    );
+
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 export const updateEvent = async (
@@ -58,14 +77,13 @@ export const updateEvent = async (
   id: number,
 ): Promise<Redirect> => {
   try {
-    const organizerId = 1;
+    const organizerId = 15;
     formData.append('organizerId', organizerId.toString());
 
     const response = await axios.post(
-      process.env.NEXT_PUBLIC_BASE_API_URL + `/update-event/${id}`,
+      process.env.NEXT_PUBLIC_BASE_API_URL + `/event/update-event/${id}`,
       formData,
     );
-    console.log('🚀 ~ updateEvent ~ response:', response.data);
     return response.data;
   } catch (error) {
     console.error(error);

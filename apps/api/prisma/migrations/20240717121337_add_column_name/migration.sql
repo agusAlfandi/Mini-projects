@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Review` ADD COLUMN `name` VARCHAR(191) NOT NULL DEFAULT '';
