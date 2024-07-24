@@ -6,8 +6,10 @@ import { IEvent } from '@/utils/interface';
 import FormatRupiah from '../FormatRupiah';
 import RiviewsList from '../(review)/RiviewsList';
 import CreateCommentForm from '@/components/auth/CreateCommentForm';
+import { cookies } from 'next/headers';
+import { verifyToken } from '@/utils/verifyToken';
 
-const DetailEvent = ({
+const DetailEvent = async ({
   id,
   event_id,
   name,
@@ -18,8 +20,15 @@ const DetailEvent = ({
   availableSeats,
   isFree,
   image,
-}: IEvent): React.ReactElement => {
-  const isLogin = true;
+}: IEvent): Promise<React.ReactElement> => {
+  const token = cookies().get('jsonwebtoken')?.value as string;
+
+  const isLogin = (await verifyToken(
+    token,
+    process.env.NEXT_PUBLIC_JWT_SECRET as string,
+  ))
+    ? true
+    : false;
 
   const dateEvent = new Date(date).getTime();
   const dateFormat = format(date, 'EEE, d MMM, HH:mm');
@@ -65,7 +74,7 @@ const DetailEvent = ({
                 {location}
               </p>
               {dateEvent < new Date().getTime() ? null : (
-                <Link href={`/dashboard/my-event/register-event/${id}`}>
+                <Link href={`/dashboard/register-event/${id}`}>
                   <button className="btn btn-primary">Daftar</button>
                 </Link>
               )}
