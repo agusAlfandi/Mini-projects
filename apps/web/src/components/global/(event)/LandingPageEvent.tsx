@@ -38,12 +38,12 @@ const LandingPageEvent = (): React.ReactElement => {
     <div className="p-10 pt-0">
       <div className="flex md:flex-row flex-col w-full gap-5 mb-10">
         <Image
-          src={'/banner.webp'}
+          src="/banner.webp"
           alt="Banner"
           width={500}
           height={100}
-          placeholder="blur"
-          blurDataURL={'/banner.webp'}
+          // placeholder="blur"
+          // blurDataURL={'/banner.webp'}
           className="flex-1 rounded-xl h-96 w-96 object-cover"
         />
         <Image
@@ -51,8 +51,8 @@ const LandingPageEvent = (): React.ReactElement => {
           alt="Banner"
           width={500}
           height={100}
-          placeholder="blur"
-          blurDataURL={'/banner2.webp'}
+          // placeholder="blur"
+          // blurDataURL={'/banner2.webp'}
           className="flex-1 rounded-xl h-96 w-96 object-cover"
         />
       </div>

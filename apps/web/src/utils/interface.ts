@@ -20,3 +20,16 @@ export interface Review {
   rating: number;
   comment: string;
 }
+
+export interface Promotion {
+  event_id: number;
+  id?: number;
+  code?: string;
+  discount?: number;
+  date?: Date;
+}
+
+export interface IPromotion extends Event {
+  code?: string;
+  discount?: number;
+}

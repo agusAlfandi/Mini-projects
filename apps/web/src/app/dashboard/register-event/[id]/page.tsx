@@ -1,4 +1,5 @@
 import { getEventById } from '@/api/event';
+import { getPromoByEvent } from '@/api/promo';
 import RegisterEvent from '@/components/auth/RegisterEvent';
 
 type ParamsProps = {
@@ -9,6 +10,7 @@ type ParamsProps = {
 
 const page = async ({ params }: ParamsProps): Promise<React.ReactElement> => {
   const register = await getEventById(params.id);
+  const promo = await getPromoByEvent(params.id);
 
   return (
     <RegisterEvent
@@ -21,6 +23,8 @@ const page = async ({ params }: ParamsProps): Promise<React.ReactElement> => {
       availableSeats={register.event.availableSeats}
       isFree={register.event.isFree}
       image={register.event.image}
+      code={promo?.promos?.code}
+      discount={promo?.promos?.discount}
     />
   );
 };

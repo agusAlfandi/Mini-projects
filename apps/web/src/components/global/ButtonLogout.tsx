@@ -13,7 +13,10 @@ const ButtonLogout = ({
     deleteCookies(nameCookies);
   };
   return (
-    <button className="btn btn-ghost" onClick={handleLogout}>
+    <button
+      className="btn btn-ghost text-base font-bold"
+      onClick={handleLogout}
+    >
       Logout
     </button>
   );
