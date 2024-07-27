@@ -22,7 +22,7 @@ export const createPromo = async (data: FormData, event_id: number) => {
       { code, discount, date },
     );
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    return error.response.data;
   }
 };

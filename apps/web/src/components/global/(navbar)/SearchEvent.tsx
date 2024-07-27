@@ -3,6 +3,7 @@
 import { getByCategory, getByLokasi } from '@/api/event';
 import { useState } from 'react';
 import SearchResult from './SearchResult';
+import { toast } from 'react-hot-toast';
 
 const SearchEvent = (): React.ReactElement => {
   const [data, setData] = useState('');
@@ -15,10 +16,10 @@ const SearchEvent = (): React.ReactElement => {
 
     const res = await getByLokasi(formData);
     if (res.event) {
-      alert(res.message);
+      toast.success(res.message);
       setRes(res.event);
     } else {
-      alert(res.message);
+      toast.error(res.message);
     }
   };
 
@@ -29,10 +30,10 @@ const SearchEvent = (): React.ReactElement => {
 
     const res = await getByCategory(formData);
     if (res.event) {
-      alert(res.message);
+      toast.success(res.message);
       setRes(res.event);
     } else {
-      alert(res.message);
+      toast.error(res.message);
     }
   };
 

@@ -40,9 +40,6 @@ const DetailEvent = async ({
   const whoCanCreatePromo =
     compareUserEvent?.payload.id === organizer.event.organizerId ? true : false;
 
-  console.log('user login :', compareUserEvent?.payload.id);
-  console.log('organizer :', organizer.event.organizerId);
-
   const isLogin = (await verifyToken(
     token,
     process.env.NEXT_PUBLIC_JWT_SECRET as string,

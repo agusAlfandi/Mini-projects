@@ -4,6 +4,8 @@ import React from 'react';
 import { IPromotion } from '@/utils/interface';
 import Image from 'next/image';
 import FormatRupiah from '../global/FormatRupiah';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 const RegisterEvent = ({
   name,
@@ -16,8 +18,9 @@ const RegisterEvent = ({
   const [referalCode, setReferalCode] = React.useState('');
   const totalPrice = price ? price + price * 0.1 : 'Free';
   const [totalPriceDiskon, setTotalPriceDiskon] = React.useState(totalPrice);
+  const Router = useRouter();
 
-  const handleDiskon = (e: React.FormEvent) => {
+  const handleDiskon = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const diskon = new FormData();
@@ -28,7 +31,13 @@ const RegisterEvent = ({
         Number(totalPrice) - (Number(totalPrice) * (discount ?? 0)) / 100,
       );
     }
-    alert('Code Promo is not valid');
+  };
+
+  const handleJoin = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success('Thanks for join this event');
+
+    Router.push('/');
   };
 
   return (
@@ -60,7 +69,7 @@ const RegisterEvent = ({
                 <FormatRupiah price={totalPrice} />
               </p>
             </div>
-            <div
+            <form
               onClick={handleDiskon}
               className="flex justify-between items-center"
             >
@@ -76,7 +85,7 @@ const RegisterEvent = ({
                 required
                 onChange={(e) => setReferalCode(e.target.value)}
               />
-            </div>
+            </form>
             <div className="flex justify-between">
               <p>Total</p>
               {referalCode ? (
@@ -85,8 +94,11 @@ const RegisterEvent = ({
                 <FormatRupiah price={totalPrice} />
               )}
             </div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Register
+            <button
+              onClick={handleJoin}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Join
             </button>
           </div>
         </div>

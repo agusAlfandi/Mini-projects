@@ -61,8 +61,8 @@ export const createEvent = async (formData: FormData) => {
       formData,
     );
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    return error.response.data;
   }
 };
 

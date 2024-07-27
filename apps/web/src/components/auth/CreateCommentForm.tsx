@@ -1,15 +1,11 @@
 'use client';
 
 import { createReview } from '@/api/riviews';
+import { IReview } from '@/utils/interface';
 import React from 'react';
+import { toast } from 'react-hot-toast';
 
-type ParamsProps = {
-  event_id: number | undefined;
-};
-
-const CreateCommentForm = ({
-  event_id = 0,
-}: ParamsProps): React.ReactElement => {
+const CreateCommentForm = ({ event_id }: IReview): React.ReactElement => {
   const FromRef = React.useRef<HTMLFormElement>(null);
   const [name, setName] = React.useState('');
   const [rating, setRating] = React.useState('');
@@ -23,14 +19,10 @@ const CreateCommentForm = ({
     formData.append('rating', rating);
     formData.append('comment', comment);
 
-    const res = await createReview(formData, event_id);
+    const res = await createReview(formData, event_id ?? 0);
 
     if (res) {
-      alert('Review Created');
-    }
-
-    if (FromRef.current) {
-      FromRef.current.reset();
+      toast.success(res.message);
     }
   };
 
@@ -57,7 +49,8 @@ const CreateCommentForm = ({
 
         <label>Rate</label>
         <input
-          type="number"
+          type="text"
+          inputMode="numeric"
           name="availableSeats"
           placeholder="Rate"
           className="input input-bordered w-full max-w-xs"

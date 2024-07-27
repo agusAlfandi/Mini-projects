@@ -3,6 +3,7 @@
 import { login } from '@/api/auth';
 import { setCookies } from '@/utils/cookies';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 const Page = (): React.ReactElement => {
   const Router = useRouter();
@@ -15,9 +16,13 @@ const Page = (): React.ReactElement => {
       const response = await login(email, password);
 
       await setCookies('jsonwebtoken', response.user.jsonwebtoken);
-      Router.push('/');
+
+      if (response) {
+        toast.success(response.message);
+        Router.push('/');
+      }
     } catch (error) {
-      console.error('handleLogin', error);
+      toast.error('Invalid email or password');
     }
   };
   return (

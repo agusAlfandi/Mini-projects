@@ -24,7 +24,7 @@ export const createPromo = async (req: Request, res: Response) => {
         validUntil: datePromo,
       },
     });
-    res.status(201).send('Success create promo');
+    res.status(201).send({ message: 'Success create promo' });
   } catch (error) {
     res.status(500).send({ message: 'Error create promo', error });
   }

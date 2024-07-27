@@ -1,6 +1,7 @@
 'use server';
 
 import axios from 'axios';
+import { revalidatePath } from 'next/cache';
 
 export const login = async (email: string, password: string) => {
   try {

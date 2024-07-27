@@ -1,10 +1,11 @@
 'use client';
 
 import { createEvent } from '../../api/event';
+import { useRouter } from 'next/navigation';
 import React from 'react';
+import { toast } from 'react-hot-toast';
 
 const CreateEvent = (): React.ReactElement => {
-  const FromRef = React.useRef<HTMLFormElement>(null);
   const [name, setName] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [date, setDate] = React.useState('');
@@ -13,6 +14,7 @@ const CreateEvent = (): React.ReactElement => {
   const [availableSeats, setAvailableSeats] = React.useState('');
   const [isFree, setIsFree] = React.useState(false);
   const [image, setImage] = React.useState<File>();
+  const Router = useRouter();
 
   const handleCreateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,22 +31,17 @@ const CreateEvent = (): React.ReactElement => {
 
     const res = await createEvent(formData);
 
-    if (res) {
-      alert('Event Created');
-    }
-
-    if (FromRef.current) {
-      FromRef.current.reset();
+    if (res.message !== 'Error create event') {
+      toast.success(res.message);
+      Router.push('/dashboard/event-list');
+    } else {
+      toast.error(res.message);
     }
   };
 
   return (
     <div className="flex justify-center w-full">
-      <form
-        ref={FromRef}
-        onSubmit={handleCreateEvent}
-        className="flex flex-col gap-4 w-1/2"
-      >
+      <form onSubmit={handleCreateEvent} className="flex flex-col gap-4 w-1/2">
         <label>Name Event</label>
         <input
           type="text"
@@ -62,7 +59,6 @@ const CreateEvent = (): React.ReactElement => {
           name="price"
           placeholder="Price"
           className="input input-bordered w-full max-w-3xl"
-          required
           onChange={(e) => setPrice(e.target.value)}
           value={price}
         />

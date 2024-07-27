@@ -2,6 +2,7 @@
 
 import { register } from '@/api/auth';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 const Page = (): React.ReactElement => {
   const Router = useRouter();
@@ -13,9 +14,13 @@ const Page = (): React.ReactElement => {
       const email = form.get('email') as string;
       const password = form.get('password') as string;
       const response = await register(email, password);
-      console.log('🚀 ~ handleRegister ~ response:', response);
 
-      Router.push('/sign-in');
+      if (response.message !== 'Email already registered') {
+        toast.success(response.message);
+        Router.push('/sign-in');
+      } else {
+        toast.error(response.message);
+      }
     } catch (error) {
       console.error('handleRegister', error);
     }

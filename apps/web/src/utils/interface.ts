@@ -15,10 +15,14 @@ export interface IEvent extends Event {
 }
 
 export interface Review {
-  id: number;
-  name: string;
-  rating: number;
-  comment: string;
+  id?: number;
+  name?: string;
+  rating?: number;
+  comment?: string;
+}
+
+export interface IReview extends Review {
+  event_id: number | undefined;
 }
 
 export interface Promotion {

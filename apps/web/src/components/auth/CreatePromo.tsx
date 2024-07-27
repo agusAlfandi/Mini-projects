@@ -2,13 +2,15 @@
 
 import { createPromo } from '@/api/promo';
 import { Promotion } from '@/utils/interface';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 const CreatePromo = ({ event_id }: Promotion): React.ReactElement => {
-  const FromRef = React.useRef<HTMLFormElement>(null);
   const [code, setCode] = useState('');
   const [discount, setDiscount] = useState('');
   const [date, setDate] = useState('');
+  const Router = useRouter();
 
   const handlePromo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,23 +22,18 @@ const CreatePromo = ({ event_id }: Promotion): React.ReactElement => {
 
     const res = await createPromo(formData, event_id);
 
-    if (res) {
-      alert('Promo Created');
-    }
-
-    if (FromRef.current) {
-      FromRef.current.reset();
+    if (res.message !== 'Error create promo') {
+      toast.success('Promo Created');
+      Router.push('/');
+    } else {
+      toast.error('Failed to create promo');
     }
   };
 
   return (
     <div className="flex flex-col justify-center items-center w-full mb-20">
       <h1 className="flex justify-center text-2xl mb-10 mt-14">Create Promo</h1>
-      <form
-        ref={FromRef}
-        onSubmit={handlePromo}
-        className="flex flex-col gap-4 w-1/2"
-      >
+      <form onSubmit={handlePromo} className="flex flex-col gap-4 w-1/2">
         <label>Code Promo</label>
         <input
           type="text"
