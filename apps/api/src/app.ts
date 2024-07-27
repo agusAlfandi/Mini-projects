@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.use((req: Request, res: Response, next: NextFunction): void => {
-  // console.log('Hello, World!');
+  // console.log(process.env.DATABASE_URL);
   next();
 });
 

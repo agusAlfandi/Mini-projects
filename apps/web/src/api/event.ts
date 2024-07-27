@@ -3,6 +3,8 @@
 import axios from 'axios';
 import { redirect } from 'next/navigation';
 import { Redirect } from 'next';
+import { cookies } from 'next/headers';
+import { verifyToken } from '../utils/verifyToken';
 
 export const getAllEvent = async () => {
   try {
@@ -46,18 +48,22 @@ export const getByCategory = async (category: FormData) => {
 
 export const createEvent = async (formData: FormData) => {
   try {
-    const organizerId = 1;
+    const token = cookies().get('jsonwebtoken')?.value as string;
+    const userId = await verifyToken(
+      token,
+      process.env.NEXT_PUBLIC_JWT_SECRET as string,
+    );
+    const organizerId = String(userId?.payload.id);
 
-    formData.append('organizerId', organizerId.toString());
+    formData.append('organizerId', organizerId);
     const response = await axios.post(
       process.env.NEXT_PUBLIC_BASE_API_URL + '/event/create-event',
       formData,
     );
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    return error.response.data;
   }
-  // redirect('/dashboard/event');
 };
 
 export const getEventById = async (id: number) => {

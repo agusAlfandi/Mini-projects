@@ -8,6 +8,9 @@ import RiviewsList from '../(review)/RiviewsList';
 import CreateCommentForm from '@/components/auth/CreateCommentForm';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/utils/verifyToken';
+import Promo from '../(promo)/Promo';
+import { getPromoByEvent } from '@/api/promo';
+import { getEventById } from '@/api/event';
 
 const DetailEvent = async ({
   id,
@@ -21,7 +24,21 @@ const DetailEvent = async ({
   isFree,
   image,
 }: IEvent): Promise<React.ReactElement> => {
+  const promoByEvent = await getPromoByEvent(event_id ?? 0);
   const token = cookies().get('jsonwebtoken')?.value as string;
+  const promo = promoByEvent?.promos ? true : false;
+
+  const organizer = await getEventById(event_id ?? 0);
+
+  const isFreeEvent = organizer.event.isFree ? true : false;
+
+  const compareUserEvent = await verifyToken(
+    token,
+    process.env.NEXT_PUBLIC_JWT_SECRET as string,
+  );
+
+  const whoCanCreatePromo =
+    compareUserEvent?.payload.id === organizer.event.organizerId ? true : false;
 
   const isLogin = (await verifyToken(
     token,
@@ -29,7 +46,6 @@ const DetailEvent = async ({
   ))
     ? true
     : false;
-
   const dateEvent = new Date(date).getTime();
   const dateFormat = format(date, 'EEE, d MMM, HH:mm');
 
@@ -73,10 +89,37 @@ const DetailEvent = async ({
                 Location: <br />
                 {location}
               </p>
-              {dateEvent < new Date().getTime() ? null : (
-                <Link href={`/dashboard/register-event/${id}`}>
-                  <button className="btn btn-primary">Daftar</button>
-                </Link>
+              {isFreeEvent ? null : (
+                <>
+                  <div>
+                    {dateEvent < new Date().getTime() ? null : (
+                      <>
+                        {whoCanCreatePromo ? (
+                          <>
+                            {promo ? (
+                              <p>Code Promo: {promoByEvent.promos?.code}</p>
+                            ) : (
+                              <Promo event_id={event_id ?? 0} />
+                            )}
+                          </>
+                        ) : (
+                          <p>Code Promo: {promoByEvent.promos?.code}</p>
+                        )}
+                      </>
+                    )}
+                  </div>
+                  <>
+                    {whoCanCreatePromo ? null : (
+                      <>
+                        {dateEvent < new Date().getTime() ? null : (
+                          <Link href={`/dashboard/register-event/${id}`}>
+                            <button className="btn btn-primary">Daftar</button>
+                          </Link>
+                        )}
+                      </>
+                    )}
+                  </>
+                </>
               )}
             </div>
           </div>

@@ -23,14 +23,14 @@ export const createEvent = async (req: Request, res: Response) => {
       organizerId,
     } = req.body;
     const dateEvent = new Date(date);
-    const priceNumber = parseFloat(price);
+    const priceNumber = parseFloat(price == '' ? '0' : price);
     const availableSeatsNumber = parseInt(availableSeats);
     const organizerIdNumber = parseInt(organizerId);
     const isFreeBoolean = isFree === 'true';
     const event = await prisma.event.create({
       data: {
         name,
-        price: isFree ? 0 : priceNumber,
+        price: isFree === '' ? 0 : priceNumber,
         date: dateEvent,
         location,
         description,
@@ -85,7 +85,7 @@ export const updateEvent = async (req: Request, res: Response) => {
       where: { id: Number(id) },
       data: {
         name,
-        price: priceNumber,
+        price: isFree === 0 ? 0 : priceNumber,
         date: dateEvent,
         location,
         description,

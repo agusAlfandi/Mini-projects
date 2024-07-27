@@ -32,11 +32,6 @@ const NavbarButton = async (): Promise<React.ReactElement> => {
                 Event List
               </Link>
             </li>
-            <li>
-              <Link href="/dashboard/promotion" className="btn btn-ghost">
-                Promotion
-              </Link>
-            </li>
           </ul>
           <div className="dropdown dropdown-end">
             <div
@@ -62,18 +57,20 @@ const NavbarButton = async (): Promise<React.ReactElement> => {
           </div>
         </div>
       ) : (
-        <ul className="menu menu-horizontal px-1 text-lg text-white gap-4">
-          <li>
-            <Link href="/sign-in" className="btn btn-ghost">
-              Sign In
-            </Link>
-          </li>
-          <li>
-            <Link href="/sign-up" className="btn btn-ghost">
-              Sign Up
-            </Link>
-          </li>
-        </ul>
+        <div className="md:flex hidden">
+          <ul className="menu menu-horizontal px-1 text-lg text-white gap-4 lg:flex hidden">
+            <li>
+              <Link href="/sign-in" className="btn btn-ghost">
+                Sign In
+              </Link>
+            </li>
+            <li>
+              <Link href="/sign-up" className="btn btn-ghost">
+                Sign Up
+              </Link>
+            </li>
+          </ul>
+        </div>
       )}
       {/* menu horizontal */}
 

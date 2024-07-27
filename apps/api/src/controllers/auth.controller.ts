@@ -50,9 +50,11 @@ export const login = async (req: Request, res: Response) => {
     });
 
     const jsonwebtoken = jwt.sign(
-      { data: email },
+      { id: existingUser?.id, data: email },
       process.env.JWT_SECRET || 'IOEHWOEtHFJWPEjrt38240-958934-0598',
-      { expiresIn: '1h' },
+      {
+        expiresIn: '1h',
+      },
     );
 
     res.cookie('jwt', jsonwebtoken, { httpOnly: true });
