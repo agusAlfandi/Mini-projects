@@ -75,7 +75,7 @@ const DetailEvent = async ({
             <p className="overflow-x-auto h-32 mb-5 text-justify">
               {description}
             </p>
-            <hr className="border-slate-500 mb-5" />
+            <div className="divider divider-neutral"></div>
             <div className="flex flex-wrap items-center md:w-3/4 lg:w-full gap-4">
               <p>
                 Seats: <br />
@@ -127,8 +127,9 @@ const DetailEvent = async ({
       </div>
       {dateEvent > new Date().getTime() ? null : (
         <>
+          <div className="divider"></div>
           <RiviewsList event_id={event_id} />
-          <hr className="border-slate-400 px-96 my-5" />
+          <div className="divider"></div>
           {isLogin ? (
             <CreateCommentForm event_id={event_id} />
           ) : (

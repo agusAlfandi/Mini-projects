@@ -30,7 +30,7 @@ export const createEvent = async (req: Request, res: Response) => {
     const event = await prisma.event.create({
       data: {
         name,
-        price: isFree === '' ? 0 : priceNumber,
+        price: priceNumber,
         date: dateEvent,
         location,
         description,
