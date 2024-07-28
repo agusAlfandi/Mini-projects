@@ -1,7 +1,6 @@
 'use server';
 
 import { getEventById, updateEvent } from '@/api/event';
-import EditEvent from '@/components/auth/EditEvent';
 import DetailEvent from '@/components/global/(event)/DetailEvent';
 
 type ParamsProps = {
@@ -26,16 +25,6 @@ const page = async ({ params }: ParamsProps): Promise<React.ReactElement> => {
       isFree={event.event.isFree}
       image={event.event.image}
     />
-    // <EditEvent
-    //   id={event.event.id}
-    //   name={event.event.name}
-    //   price={event.event.price}
-    //   date={event.event.date}
-    //   location={event.event.location}
-    //   description={event.event.description}
-    //   availableSeats={event.event.availableSeats}
-    //   isFree={event.event.isFree}
-    // />
   );
 };
 

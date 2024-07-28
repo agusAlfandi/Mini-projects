@@ -12,7 +12,7 @@ const CreateEvent = (): React.ReactElement => {
   const [location, setLocation] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [availableSeats, setAvailableSeats] = React.useState('');
-  const [isFree, setIsFree] = React.useState(false);
+  const [isFree, setIsFree] = React.useState<Boolean>(false);
   const [image, setImage] = React.useState<File>();
   const Router = useRouter();
 

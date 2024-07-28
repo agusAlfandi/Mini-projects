@@ -1,6 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { format } from 'date-fns';
 import { IEvent } from '@/utils/interface';
 import FormatRupiah from '../FormatRupiah';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PostContent from '../(event)/PostContent';
-import { IEvent, Review } from '@/utils/interface';
+import { IEvent } from '@/utils/interface';
 
 type ParamsProps = {
   result: Array<IEvent>;
