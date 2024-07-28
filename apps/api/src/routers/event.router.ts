@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 
 import {
   createEvent,
+  getEvent,
   getEventByCategory,
   getEventById,
   getEventByLocation,
@@ -14,6 +15,7 @@ const router = Router();
 
 router.post('/create-event', upload.single('image'), createEvent);
 router.get('/get-events', getEvents);
+router.get('/get-event', getEvent);
 router.post('/update-event/:id', updateEvent);
 router.get('/get-event/:id', getEventById);
 router.get('/get-by-lokasi/:location', getEventByLocation);

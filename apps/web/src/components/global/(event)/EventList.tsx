@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { getAllEvent } from '@/api/event';
+import { getAllEventPagination } from '@/api/event';
 import PostContent from './PostContent';
 import Loading from '../Loading';
 
@@ -17,6 +17,7 @@ const EventList = (): React.ReactElement => {
     }[]
   >([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
     handlegetAllEvent();
@@ -24,7 +25,7 @@ const EventList = (): React.ReactElement => {
 
   const handlegetAllEvent = async () => {
     setLoading(true);
-    const response = await getAllEvent();
+    const response = await getAllEventPagination(page);
     setEvents(response.events);
     setLoading(false);
   };
@@ -32,7 +33,7 @@ const EventList = (): React.ReactElement => {
   if (loading) return <Loading />;
 
   return (
-    <div className="bg-green-200 p-10 shadow-md rounded-md">
+    <div className="flex min-h-screen flex-col justify-between bg-green-200 p-10 shadow-md rounded-md">
       <div className="grid md:grid-cols-3 gap-4">
         {events?.map((event) => {
           return (
@@ -48,6 +49,25 @@ const EventList = (): React.ReactElement => {
           );
         })}
       </div>
+      <form
+        action={handlegetAllEvent}
+        className="flex justify-center items-center join mt-5"
+      >
+        <button
+          className="join-item btn btn-outline"
+          type="submit"
+          onClick={() => setPage(page === 0 ? 0 : page - 6)}
+        >
+          Previous page
+        </button>
+        <button
+          className="join-item btn btn-outline"
+          type="submit"
+          onClick={() => setPage(events?.length <= 0 ? page : page + 6)}
+        >
+          Next
+        </button>
+      </form>
     </div>
   );
 };
