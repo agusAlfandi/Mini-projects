@@ -46,6 +46,18 @@ export const createEvent = async (req: Request, res: Response) => {
   }
 };
 
+export const getEvent = async (req: Request, res: Response) => {
+  try {
+    const events = await prisma.event.findMany({
+      skip: Number(req.query.skip),
+      take: Number(req.query.take),
+    });
+    res.status(200).send({ message: 'Success get events', events });
+  } catch (error) {
+    res.status(500).send({ message: 'Error get events', error });
+  }
+};
+
 export const getEvents = async (req: Request, res: Response) => {
   try {
     const events = await prisma.event.findMany();

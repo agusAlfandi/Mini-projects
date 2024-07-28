@@ -9,7 +9,20 @@ import { verifyToken } from '../utils/verifyToken';
 export const getAllEvent = async () => {
   try {
     const response = await axios.get(
-      process.env.NEXT_PUBLIC_BASE_API_URL + '/event/get-events',
+      process.env.NEXT_PUBLIC_BASE_API_URL + `/event/get-events`,
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllEventPagination = async (page: number) => {
+  try {
+    const response = await axios.get(
+      process.env.NEXT_PUBLIC_BASE_API_URL +
+        `/event/get-event?skip=${page}&take=6`,
     );
 
     return response.data;
